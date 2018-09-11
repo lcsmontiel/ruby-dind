@@ -116,15 +116,17 @@ RUN mkdir -p "$GEM_HOME" "$BUNDLE_BIN" \
 ADD ./wrapdocker /usr/local/bin/wrapdocker
 
 RUN chmod +x /usr/local/bin/wrapdocker && \
+    echo "http://dl-cdn.alpinelinux.org/alpine/latest-stable/main" >> /etc/apk/repositories && \
     echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
     apk add --upgrade --no-cache bash \
-		       docker=17.05.0-r0 \
+		       curl \
+		       docker=18.06.1-r0 \
 		       python \
 		       python-dev \
-        	       py-pip && \
+        	   py-pip \
+        	   yarn && \
     pip install --upgrade pip && \
     pip install awscli && \
     apk --purge -v del py-pip
-
 VOLUME /var/lib/docker
 CMD ["./usr/local/bin/wrapdocker"]
